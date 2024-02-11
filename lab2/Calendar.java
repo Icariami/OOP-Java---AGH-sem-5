@@ -11,10 +11,11 @@ public class Calendar {
 
     /**
      * Main function.
-     * Prints: today's date, closest software developer's day's date, and a Calendar.
+     * Prints: today's date, closest programmer's day's date, and a Calendar.
      * By default, with no command-line arguments, prints the current month's calendar.
      * With -m <int number> arguments, prints the month with the given number of the current year.
      * With -m <month number> -y <year number>, prints the month and year with the given numbers.
+     * Also, when the provided month is september, prints '#' next to the day of the programmer's day
      *
      * @param args command-line arguments
      */
@@ -23,7 +24,7 @@ public class Calendar {
         LocalDate today = LocalDate.now();
         System.out.println("Today is: " + today);
 
-        System.out.print("Closest software developer's day: ");
+        System.out.print("Closest programmer's day: ");
         if(today.getDayOfYear() > 256)
             System.out.println(LocalDate.ofYearDay(today.getYear() + 1, 256));
         else
@@ -58,10 +59,12 @@ public class Calendar {
             System.out.println("Incorrect data entered");
             return;
         }
+        boolean isSeptember = m == Month.SEPTEMBER;
+        LocalDate programmersDay = LocalDate.ofYearDay(year_nr, 256);
 
-        System.out.println("\n      " + m.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + " " + year_nr);
+        System.out.println("\n          " + m.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + " " + year_nr);
         for(var i : DayOfWeek.values()){
-            System.out.print("  " + i.getDisplayName(TextStyle.NARROW, Locale.ENGLISH).toLowerCase());
+            System.out.print(" " + i.getDisplayName(TextStyle.SHORT, Locale.ENGLISH).toLowerCase());
         }
         System.out.println();
 
@@ -69,11 +72,14 @@ public class Calendar {
         var day_of_week = day.getDayOfWeek().getValue();
 
         for (int i = 0; i < day_of_week - 1; i++) {
-            System.out.print("   ");
+            System.out.print("    ");
         }
 
         while(day.getMonth() == m){
-            System.out.printf("%3d", day.getDayOfMonth());
+            if(day.equals(programmersDay)) {
+                System.out.print(" " + day.getDayOfMonth() + "#");
+            } else
+                System.out.printf("%4d", day.getDayOfMonth());
             if(day.getDayOfWeek() == DayOfWeek.SUNDAY){
                 System.out.println();
             }
