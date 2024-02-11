@@ -3,7 +3,7 @@ import java.util.*;
 
 /**
  * @author  Gosia Makiela
- * Class representing a User
+ * Class representing a shop user.
  */
 public final class User {
 

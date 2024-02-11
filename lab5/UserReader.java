@@ -17,8 +17,7 @@ public class UserReader{
      * Sets the size of data as number of lines in a file
      */
     public UserReader(){
-        try {
-            BufferedReader buf = new BufferedReader(new FileReader("shop.csv"));
+        try (BufferedReader buf = new BufferedReader(new FileReader("shop.csv"))){
             int linesCount = (int) buf.lines().count() - 1;
             data = new User[linesCount];
         } catch (Throwable e) {
@@ -31,8 +30,7 @@ public class UserReader{
      * @param file file name
      */
     public void readFromFile( String file ) {
-        try {
-            BufferedReader buf = new BufferedReader(new FileReader(file));
+        try (BufferedReader buf = new BufferedReader(new FileReader(file))) {
             String line;
             int i = 0;
             boolean isFirst = true;

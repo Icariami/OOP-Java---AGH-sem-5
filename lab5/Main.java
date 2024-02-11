@@ -12,6 +12,5 @@ public class Main{
         UserReader ur = new UserReader();
         ur.readFromFile("shop.csv");
         ur.print();
-//        ur.saveToFile("output.csv");
     }
 }
