@@ -15,4 +15,22 @@ public class BigNumberTest {
         assertNotEquals(number1.hashCode(), number3.hashCode());
     }
 
+    @Test
+    public void testStaticFields() {
+        BigNumber zero = BigNumber.valueOf(new byte[]{0}, new byte[]{0});
+        BigNumber one = BigNumber.valueOf(new byte[]{1}, new byte[]{0});
+        BigNumber two = BigNumber.valueOf(new byte[]{2}, new byte[]{0});
+        BigNumber ten = BigNumber.valueOf(new byte[]{1,0}, new byte[]{0});
+
+        assertSame(zero, BigNumber.ZERO);
+        assertSame(one, BigNumber.ONE);
+        assertSame(two, BigNumber.TWO);
+        assertSame(ten, BigNumber.TEN);
+
+        assertEquals(zero.hashCode(), BigNumber.ZERO.hashCode());
+        assertEquals(one.hashCode(), BigNumber.ONE.hashCode());
+        assertEquals(two.hashCode(), BigNumber.TWO.hashCode());
+        assertEquals(ten.hashCode(), BigNumber.TEN.hashCode());
+    }
+
 }
