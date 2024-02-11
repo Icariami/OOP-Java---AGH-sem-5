@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * The BigNumber class represents non-negative real numbers with arbitrary precision.
@@ -9,17 +8,6 @@ import java.util.Objects;
  * (e.g., for integers, the fractional part has one digit equal to 0).
  */
 public final class BigNumber {
-    public static void main(String[] args){
-        BigNumber test1 = new BigNumber(new byte[]{1,2,3,4}, new byte[]{5,6,7,8});
-        System.out.println(test1);
-        System.out.println(BigNumber.ZERO);
-
-        BigNumber test2 = test1.floor();
-        System.out.println(test2);
-
-        BigNumber test3 = BigNumber.valueOf(new byte[]{2}, new byte[]{0});
-        System.out.println(test3);
-    }
 
     /**
      * Integer part of this number.
@@ -27,124 +15,97 @@ public final class BigNumber {
     private final byte[] integer;
 
     /**
-     * fractional part of this number.
+     * Fractional part of this number.
      */
     private final byte[] frac;
 
-
-    private  int hash;
+    /**
+     * Hash code cache to improve performance.
+     */
+    private int hash;
     private boolean isHash = false;
 
     /**
-     * The BigNumber representing zero (0.0).
+     * Represents zero.
      */
     public static final BigNumber ZERO = new BigNumber(new byte[]{0}, new byte[]{0});
 
     /**
-     * The BigNumber representing one (1.0).
+     * Represents one.
      */
     public static final BigNumber ONE = new BigNumber(new byte[]{1}, new byte[]{0});
 
     /**
-     * The BigNumber representing two (2.0).
+     * Represents two.
      */
     public static final BigNumber TWO = new BigNumber(new byte[]{2}, new byte[]{0});
 
     /**
-     * The BigNumber representing ten (10.0).
+     * Represents ten.
      */
-    public static final BigNumber TEN = new BigNumber(new byte[]{1,0}, new byte[]{0});
+    public static final BigNumber TEN = new BigNumber(new byte[]{1, 0}, new byte[]{0});
 
     /**
-     * Constructs a BigNumber from integer and fractional parts.
-     *
-     * @param i The integer part of the number
-     * @param f The fractional part of the number
+     * Private constructor for creating a BigNumber object.
+     * @param i Integer part.
+     * @param f Fractional part.
      */
-    public BigNumber(byte[] i, byte[] f){
+    public BigNumber(byte[] i, byte[] f) {
         this.integer = Arrays.copyOf(i, i.length);
         this.frac = Arrays.copyOf(f, f.length);
     }
 
     /**
-     * Constructs a BigNumber as 0.0.
+     * Copy constructor creates a BigNumber object with the same values as another BigNumber.
+     * @param other The other BigNumber object.
      */
-    public BigNumber(){
-        this.integer = new byte[]{0};
-        this.frac = new byte[]{0};
+    private BigNumber(BigNumber other) {
+        this.integer = Arrays.copyOf(other.integer, other.integer.length);
+        this.frac = Arrays.copyOf(other.frac, other.frac.length);
     }
 
     /**
-     * Constructs a Bignumer as a floor of other BigNumber.
-     * @param other other BigNumber
-     */
-    private BigNumber(BigNumber other){
-        this.integer = other.integer;
-        this.frac = ZERO.frac;
-    }
-
-    /**
-     * Returns a string representation of this BigNumber.
-     * @return a string representation of this BigNumber.
-     */
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        for(byte b : integer){
-            result.append(b);
-        }
-        result.append(".");
-        for(byte b : frac){
-            result.append(b);
-        }
-        return result.toString();
-    }
-
-    /**
-     * Returns the copy of the integer part of this BigNumber.
-     * @return the copy of the integer part of this BigNumber.
-     */
-    public byte[] getInteger(){
-        return Arrays.copyOf(integer, integer.length);
-    }
-
-    /**
-     * Returns the copy of the fractional part of this BigNumber.
-     * @return the copy of the fractional part of this BigNumber.
-     */
-    public byte[] getFrac(){
-        return Arrays.copyOf(frac, frac.length);
-    }
-
-    /**
-     * Returns a new BigNumber representing the floor of this number.
-     * @return A new BigNumber representing the floor of this number.
-     */
-    public BigNumber floor(){
-        return new BigNumber(this);
-    }
-
-    /**
-     * Creates a BigNumber from given integer and fractional parts.
-     * If the provided parts match predefined constants (ZERO, ONE, TWO, TEN), the constants are returned.
-     *
-     * @param i The integer part of the number
-     * @param f The fractional part of the number
-     * @return A BigNumber created from the given parts
+     * Factory method to create a BigNumber object with specified integer and fractional parts.
+     * @param i Integer part.
+     * @param f Fractional part.
+     * @return A new BigNumber object.
      */
     public static BigNumber valueOf(byte[] i, byte[] f) {
-        if(Arrays.equals(i, ZERO.integer) && Arrays.equals(f, ZERO.frac)) return ZERO;
-        if(Arrays.equals(i, ONE.integer) && Arrays.equals(f, ONE.frac)) return ONE;
-        if(Arrays.equals(i, TWO.integer) && Arrays.equals(f, TWO.frac)) return TWO;
-        if(Arrays.equals(i, TEN.integer) && Arrays.equals(f, TEN.frac)) return TEN;
+        if (Arrays.equals(i, ZERO.integer) && Arrays.equals(f, ZERO.frac)) return ZERO;
+        if (Arrays.equals(i, ONE.integer) && Arrays.equals(f, ONE.frac)) return ONE;
+        if (Arrays.equals(i, TWO.integer) && Arrays.equals(f, TWO.frac)) return TWO;
+        if (Arrays.equals(i, TEN.integer) && Arrays.equals(f, TEN.frac)) return TEN;
         return new BigNumber(i, f);
     }
 
     /**
-     * Compares this BigNumber with the specified object for equality.
-     * Two BigNumber objects are considered equal if they have the same integer and fractional parts.
-     *
-     * @param o The object to compare with this BigNumber
-     * @return {@code true} if the specified object is equal to this BigNumber, {@code false} otherwise
+     * Returns the integer part of this number.
+     * @return The integer part.
+     */
+    public byte[] getInteger() {
+        return Arrays.copyOf(integer, integer.length);
+    }
+
+    /**
+     * Returns the fractional part of this number.
+     * @return The fractional part.
+     */
+    public byte[] getFrac() {
+        return Arrays.copyOf(frac, frac.length);
+    }
+
+    /**
+     * Creates a new BigNumber object that represents the floor of this number.
+     * @return The floor of this number.
+     */
+    public BigNumber floor() {
+        return new BigNumber(this);
+    }
+
+    /**
+     * Checks if two BigNumber objects are equal.
+     * @param o The other object to compare.
+     * @return True if the objects are equal, false otherwise.
      */
     @Override
     public boolean equals(Object o) {
@@ -155,17 +116,34 @@ public final class BigNumber {
     }
 
     /**
-     * Computes a hash code for this BigNumber based on its integer and fractional parts.
-     *
-     * @return A hash code value for this BigNumber
+     * Computes the hash code for this BigNumber.
+     * @return The hash code.
      */
     @Override
     public int hashCode() {
-        if(!isHash) {
+        if (!isHash) {
             isHash = true;
             hash = Arrays.hashCode(integer);
             hash = 31 * hash + Arrays.hashCode(frac);
         }
         return hash;
     }
+
+    /**
+     * Returns a string representation of this BigNumber.
+     * @return The string representation.
+     */
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (byte b : integer) {
+            result.append(b);
+        }
+        result.append(".");
+        for (byte b : frac) {
+            result.append(b);
+        }
+        return result.toString();
+    }
 }
+
