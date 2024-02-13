@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Dean extends Person{
     private final int startYear;
     private int endYear;
@@ -5,9 +7,7 @@ public class Dean extends Person{
 
     public Dean(String deg, String fn, String ln, int sy, int ey) {
         super(fn, ln);
-        if (deg == null || fn == null || ln == null)
-            throw new NullPointerException("Jeden z parametrow konstruktora jest rowny null");
-        degree = deg;
+        degree = Objects.req;
         startYear = sy;
         endYear = ey;
     }

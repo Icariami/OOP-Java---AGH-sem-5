@@ -1,11 +1,10 @@
+import java.util.Objects;
 public abstract class Person {
     private String firstName;
     private String lastName;
     public Person(String fn, String ln) {
-        if(fn == null || ln == null)
-            throw new NullPointerException("Jeden z parametrow konstruktora jest null");
-        firstName = fn;
-        lastName = ln;
+        firstName = Objects.requireNonNull(fn, "fn is null");
+        lastName = Objects.requireNonNull(ln, "ln is null");
     }
     abstract public Person greater(Person ob);
 
@@ -18,15 +17,11 @@ public abstract class Person {
     }
 
     public void setFirstName(String fn){
-        if(fn == null)
-            throw new NullPointerException("imie jest null");
-        firstName = fn;
+        firstName = Objects.requireNonNull(fn, "fn is null");
     }
 
     public void setLastName(String ln){
-        if(ln == null)
-            throw new NullPointerException("nazwisko jest null");
-        lastName = ln;
+        lastName = Objects.requireNonNull(ln, "ln jest null");
     }
 
     @Override
