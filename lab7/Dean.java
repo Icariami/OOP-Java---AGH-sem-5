@@ -1,5 +1,3 @@
-package pl.edu.agh.fis.lab7;
-
 public class Dean extends Person{
     private final int startYear;
     private int endYear;

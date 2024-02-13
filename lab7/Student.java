@@ -1,5 +1,3 @@
-package pl.edu.agh.fis.lab7;
-
 public class Student extends Person{
     private final int idNumber;
     private double average;

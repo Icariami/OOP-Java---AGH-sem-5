@@ -1,5 +1,3 @@
-package pl.edu.agh.fis.lab7;
-
 import java.time.LocalDate;
 
 public class Graduate extends Student{

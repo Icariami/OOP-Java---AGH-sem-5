@@ -1,5 +1,3 @@
-package pl.edu.agh.fis.lab7;
-
 public abstract class Person {
     private String firstName;
     private String lastName;
