@@ -1,13 +1,12 @@
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Graduate extends Student{
     private final LocalDate graduationDate;
 
     public Graduate(String fn, String ln, int id, double avg, LocalDate gd) {
         super(fn, ln, id, avg);
-        if(fn == null || ln == null || gd == null)
-            throw new NullPointerException("Jeden z parametrow konstruktora jest null");
-        graduationDate = gd;
+        graduationDate = Objects.requireNonNull(gd, "gd is null");
     }
     public Person greater(Person ob) {
         return super.greater(ob);

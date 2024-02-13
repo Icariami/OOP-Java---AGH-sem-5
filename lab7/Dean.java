@@ -7,20 +7,19 @@ public class Dean extends Person{
 
     public Dean(String deg, String fn, String ln, int sy, int ey) {
         super(fn, ln);
-        degree = Objects.req;
+        degree = Objects.requireNonNull(deg, "deg is null");
         startYear = sy;
         endYear = ey;
     }
 
     @Override
     public Person greater(Person ob) {
-        if(ob instanceof Dean) {
-            if( (this.endYear - this.startYear) > (((Dean)ob).endYear - ((Dean)ob).startYear))
+        if(ob instanceof Dean d) {
+            if( (this.endYear - this.startYear) > (d.endYear - (d.startYear)))
                 return this;
             else
-                return (Dean)ob;
-        }
-        else
+                return d;
+        } else
             return null;
     }
 
@@ -29,9 +28,7 @@ public class Dean extends Person{
     }
 
     public void setDegree(String degree) {
-        if (degree == null)
-            throw new NullPointerException("degree nie moze byc null");
-        this.degree = degree;
+        this.degree = Objects.requireNonNull(degree, "deg is null");
     }
 
     public String getDegree() {
